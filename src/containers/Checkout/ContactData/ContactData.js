@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import axios from "../../../axios-orders";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import Input from "../../../components/UI/Input/Input";
+import { connect } from "react-redux";
 
 class ContactData extends React.Component {
     constructor(props) {
@@ -85,8 +86,8 @@ class ContactData extends React.Component {
         }
 
         const order = {
-            ingredients: this.props.ingredients,
-            price: this.props.price.toFixed(2),
+            ingredients: this.props.ings,
+            price: this.props.price,
             orderData: formData
         };
 
@@ -182,4 +183,11 @@ ContactData.propTypes = {
     price: PropTypes.number
 };
 
-export default ContactData;
+const mapStateToProps = state => {
+    return {
+        ings: state.ingredients,
+        price: +state.totalPrice.toFixed(2)
+    };
+};
+
+export default connect(mapStateToProps)(ContactData);
